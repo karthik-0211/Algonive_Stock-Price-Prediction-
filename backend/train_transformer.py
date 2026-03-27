@@ -1,9 +1,17 @@
+# =========================
+# ENV SETTINGS
+# =========================
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["KERAS_BACKEND"] = "tensorflow"   # 🔥 VERY IMPORTANT
 
+# =========================
+# IMPORTS
+# =========================
 import numpy as np
 import pandas as pd
 import joblib
+import tensorflow as tf
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import (
@@ -14,6 +22,8 @@ from tensorflow.keras.layers import (
     GlobalAveragePooling1D
 )
 from sklearn.preprocessing import MinMaxScaler
+
+print("TensorFlow version:", tf.__version__)
 
 # =========================
 # LOAD DATA
@@ -55,14 +65,15 @@ x = LayerNormalization()(x)
 x = Dense(64, activation="relu")(x)
 x = LayerNormalization()(x)
 
-# ✅ FIX: No slicing (removes GetItem error)
+# Pooling instead of slicing (IMPORTANT FIX)
 x = GlobalAveragePooling1D()(x)
 
-# Output
+# Output layer
 outputs = Dense(1)(x)
 
 model = Model(inputs, outputs)
 
+# Compile
 model.compile(optimizer='adam', loss='mse')
 
 # =========================
@@ -76,7 +87,10 @@ model.fit(X, y, epochs=5, batch_size=32)
 os.makedirs("model", exist_ok=True)
 os.makedirs("scaler", exist_ok=True)
 
+# 🔥 SAVE IN KERAS FORMAT (COMPATIBLE)
 model.save("model/transformer_model.keras")
+
+# Save scaler
 joblib.dump(scaler, "scaler/scaler.pkl")
 
 print("✅ Transformer model trained and saved successfully!")
