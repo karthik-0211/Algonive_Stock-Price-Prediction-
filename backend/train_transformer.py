@@ -76,7 +76,7 @@ model.fit(X, y, epochs=5, batch_size=32)
 os.makedirs("model", exist_ok=True)
 os.makedirs("scaler", exist_ok=True)
 
-model.save("model/transformer_model.h5")
+model.save("model/transformer_model.keras")
 joblib.dump(scaler, "scaler/scaler.pkl")
 
 print("✅ Transformer model trained and saved successfully!")
