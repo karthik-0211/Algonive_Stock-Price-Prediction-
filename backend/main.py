@@ -25,7 +25,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-model = load_model("model/transformer_model.h5",compile=False)
+model = load_model("model/transformer_model.keras",compile=False)
 scaler = joblib.load("scaler/scaler.pkl")
 
 
