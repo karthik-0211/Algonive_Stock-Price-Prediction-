@@ -1,4 +1,7 @@
 gradio
-pandas
 numpy
+pandas
+scikit-learn
+joblib
 plotly
+tensorflow==2.20.0
